@@ -1,62 +1,93 @@
-import { AppLoading } from 'expo';
-import { Asset } from 'expo-asset';
-import * as Font from 'expo-font';
-import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+/* eslint-disable global-require */
+import { AppLoading } from 'expo'
+import { applyMiddleware, createStore } from 'redux'
+import { Provider } from 'react-redux'
+import compose from 'recompose/compose'
+import { Asset } from 'expo-asset'
+import * as Font from 'expo-font'
+import axios from 'axios'
+import thunk from 'redux-thunk'
+import axiosMiddleware from 'redux-axios-middleware'
+import React, { useState } from 'react'
+import { Platform, StatusBar, StyleSheet, View } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 
-import AppNavigator from './navigation/AppNavigator';
+import reducers from './src/store/store'
+import AppNavigator from './src/navigation/AppNavigator'
+import { getCameraPermission } from './src/services/PemissionsServices'
+import { setPermission } from './src/actions/permissionAction'
+import Constants from 'expo-constants';
 
-export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+const client = axios.create({
+    baseURL: 'https://api.github.com',
+    responseType: 'json'
+})
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
-  } else {
-    return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
-    );
-  }
+const store = createStore(
+    reducers,
+    compose(
+        applyMiddleware(thunk),
+        applyMiddleware(axiosMiddleware(client)),
+    ),
+)
+
+const getAllPermissions = async () => {
+    const cameraStatus = await getCameraPermission()
+    store.dispatch(
+        setPermission({
+            camera: cameraStatus === 'granted',
+        }),
+    )
 }
 
-async function loadResourcesAsync() {
-  await Promise.all([
-    Asset.loadAsync([
-      require('./assets/images/robot-dev.png'),
-      require('./assets/images/robot-prod.png'),
-    ]),
-    Font.loadAsync({
-      // This is the font that we are using for our tab bar
-      ...Ionicons.font,
-      // We include SpaceMono because we use it in HomeScreen.js. Feel free to
-      // remove this if you are not using it in your app
-      'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
-    }),
-  ]);
+const loadResourcesAsync = async () => {
+    await Promise.all([
+        Asset.loadAsync([
+            require('./src/assets/images/robot-dev.png'),
+            require('./src/assets/images/robot-prod.png'),
+        ]),
+        Font.loadAsync({
+            ...Ionicons.font,
+            'space-mono': require('./src/assets/fonts/SpaceMono-Regular.ttf'),
+        }),
+        getAllPermissions(),
+    ])
 }
 
-function handleLoadingError(error: Error) {
-  // In this case, you might want to report the error to your error reporting
-  // service, for example Sentry
-  console.warn(error);
+const handleLoadingError = async (error: Error) => {
+    console.warn(error)
 }
 
-function handleFinishLoading(setLoadingComplete) {
-  setLoadingComplete(true);
+const handleFinishLoading = async setLoadingComplete => {
+    setLoadingComplete(true)
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+})
+
+export default function App({ skipLoadingScreen }) {
+    const [isLoadingComplete, setLoadingComplete] = useState(false)
+    console.log(Constants.installationId)
+
+    return (
+        <Provider store={store}>
+            {!isLoadingComplete && !skipLoadingScreen && (
+                <AppLoading
+                    startAsync={loadResourcesAsync}
+                    onError={handleLoadingError}
+                    onFinish={() => handleFinishLoading(setLoadingComplete)}
+                />
+            )}
+            {!(!isLoadingComplete && !skipLoadingScreen) && (
+                <View style={styles.container}>
+                    {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+                    <AppNavigator />
+                </View>
+            )}
+        </Provider>
+    )
+}
