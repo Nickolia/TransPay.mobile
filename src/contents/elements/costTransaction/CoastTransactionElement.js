@@ -15,9 +15,9 @@ const CoastTransactionElement = compose(
         currency: getSettingsCurrencySelector(state),
         decimalPlaces: getDecimalPlacesSelector(state),
     })),
-)(({ operation, sum, currency, decimalPlaces }) => (
-    <Text style={[styles.text, operation === 'add' ? styles.add : styles.remove]}>
-        <Text>{operation === 'add' ? '+' : '-'}</Text>
+)(({ operation, sum, currency, decimalPlaces, style }) => (
+    <Text style={[styles.text, operation === 'add'? styles.add : styles.remove, style]}>
+        {!!operation && <Text>{operation === 'add' ? '+' : '-'}</Text>}
         {sum}{getDecimalPlaces(decimalPlaces)}{currency}
     </Text>
 ))

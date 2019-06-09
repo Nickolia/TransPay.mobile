@@ -14,11 +14,11 @@ export default createReducer({
     actions: {
         [ACTION_SETTINGS_CURRENCY_SET]: (state, currency) => ({
             ...state,
-            ...currency,
+            currency,
         }),
         [ACTION_SETTINGS_DECIMAL_PLACES_SET]: (state, decimalPlaces) => ({
             ...state,
-            ...decimalPlaces,
+            decimalPlaces,
         }),
 
     },

@@ -5,8 +5,9 @@ import { LinearGradient } from 'expo'
 import { windowWidth } from '../../../constants/Layout'
 
 import styles from './home.styles'
+import HistoryScreen from '../history/HistoryScreen'
 
-const HomeScreen = ({ openScanScreen, openPayScreen, scannerText, qrValue, title }) => (
+const HomeScreen = ({ openScanScreen, openPayScreen, scannerText, qrValue, title, balance }) => (
     <View style={styles.container}>
         <ImageBackground
             resizeMode="contain"
@@ -15,7 +16,7 @@ const HomeScreen = ({ openScanScreen, openPayScreen, scannerText, qrValue, title
         >
             <View style={styles.titleInner}>
                 <Text style={styles.title}>{title}</Text>
-                <LinearGradient style={styles.dot} colors={['#F5515F', '#9F041B']} />
+                <LinearGradient style={styles.dot} colors={balance > 200 ? ['rgb(66, 147, 33)', 'rgb(180, 236, 81)'] : ['#F5515F', '#9F041B']} />
             </View>
             <View style={styles.code}>
                 <QRCode
@@ -28,9 +29,5 @@ const HomeScreen = ({ openScanScreen, openPayScreen, scannerText, qrValue, title
         </ImageBackground>
     </View>
 )
-
-HomeScreen.navigationOptions = {
-    header: null,
-}
 
 export default HomeScreen

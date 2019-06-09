@@ -16,8 +16,6 @@ import reducers from './src/store/store'
 import AppNavigator from './src/navigation/AppNavigator'
 import { getCameraPermission } from './src/services/PemissionsServices'
 import { setPermission } from './src/actions/permissionAction'
-import Constants from 'expo-constants';
-import { windowWidth } from './src/constants/Layout'
 
 const client = axios.create({
     baseURL: 'https://api.github.com',
@@ -44,8 +42,30 @@ const getAllPermissions = async () => {
 const loadResourcesAsync = async () => {
     await Promise.all([
         Asset.loadAsync([
+            require('./src/assets/AppIcon.png'),
+            require('./src/assets/images/ActiveTabIcon/IconEventActive.png'),
+            require('./src/assets/images/ActiveTabIcon/IconMainActive.png'),
+            require('./src/assets/images/ActiveTabIcon/IconMoreActive.png'),
+            require('./src/assets/images/ActiveTabIcon/IconProfileActive.png'),
+            require('./src/assets/images/ActiveTabIcon/IconScannerActive.png'),
+            require('./src/assets/images/Chevron/ChevronRight16.png'),
+            require('./src/assets/images/Chevron/ChevronRight24.png'),
+            require('./src/assets/images/DefaultTabIcon/IconEvent.png'),
+            require('./src/assets/images/DefaultTabIcon/IconMain.png'),
+            require('./src/assets/images/DefaultTabIcon/IconMore.png'),
+            require('./src/assets/images/DefaultTabIcon/IconProfile.png'),
+            require('./src/assets/images/DefaultTabIcon/IconScanner.png'),
+            require('./src/assets/images/SuccessError/Error.png'),
+            require('./src/assets/images/SuccessError/Success.png'),
+            require('./src/assets/images/TicketBackground/TicketBackground.png'),
+            require('./src/assets/images/TicketSeparator/LeftHalfCircle.png'),
+            require('./src/assets/images/TicketSeparator/Line.png'),
+            require('./src/assets/images/TicketSeparator/RightHalfCircle.png'),
+            require('./src/assets/images/icon.png'),
             require('./src/assets/images/robot-dev.png'),
             require('./src/assets/images/robot-prod.png'),
+            require('./src/assets/images/splash.png'),
+            require('./src/assets/splash.png'),
         ]),
         Font.loadAsync({
             ...Ionicons.font,
@@ -72,8 +92,6 @@ const styles = StyleSheet.create({
 
 export default function App({ skipLoadingScreen }) {
     const [isLoadingComplete, setLoadingComplete] = useState(false)
-    console.log(windowWidth)
-
     return (
         <Provider store={store}>
             {!isLoadingComplete && !skipLoadingScreen && (

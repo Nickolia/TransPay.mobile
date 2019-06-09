@@ -4,11 +4,12 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        height: 76,
+        height: 72,
         width: '100%',
         alignItems: 'center',
         justifyContent: 'space-around',
         flexDirection: 'row',
+        paddingTop: 4,
     },
     content: {
         flexDirection: 'column',
@@ -35,4 +36,10 @@ export default StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
     },
+    chevron: {
+        width: 16,
+        height: 16,
+        marginLeft: 6,
+    }
+
 })

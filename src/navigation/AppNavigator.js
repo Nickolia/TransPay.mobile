@@ -11,6 +11,7 @@ import ScanScreen from '../containers/screens/scan/ScanScreenContainer'
 import ProfileScreen from '../containers/screens/profile/ProfileScreenContainer'
 import HistoryScreen from '../containers/screens/history/HistoryScreenContainer'
 import SettingsScreen from '../containers/screens/settings/SettingsScreenContainer'
+import TicketScreen from '../containers/screens/ticket/TicketScreenContainer'
 import * as Colors from '../constants/Colors'
 
 const styles = StyleSheet.create({
@@ -97,6 +98,7 @@ const ProfileScreenNavigator = createStackNavigator(
 const HistoryScreenNavigator = createStackNavigator(
     {
         History: HistoryScreen,
+        Ticket: TicketScreen,
     },
     {
         initialRouteName: 'History',
@@ -179,20 +181,6 @@ const TabNavigators = createBottomTabNavigator(
                         icons={{
                             default: require('../assets/images/DefaultTabIcon/IconEvent.png'),
                             active: require('../assets/images/ActiveTabIcon/IconEventActive.png'),
-                        }}
-                    />
-                ),
-            }),
-        },
-        Settings: {
-            screen: SettingsScreenNavigator,
-            navigationOptions: () => ({
-                tabBarIcon: ({ focused }) => (
-                    <TabElement
-                        focused={focused}
-                        icons={{
-                            default: require('../assets/images/DefaultTabIcon/IconMore.png'),
-                            active: require('../assets/images/ActiveTabIcon/IconMoreActive.png'),
                         }}
                     />
                 ),

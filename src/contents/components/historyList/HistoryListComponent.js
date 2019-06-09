@@ -1,13 +1,18 @@
-import React from 'react'
-import HistoryListWrapperElement from '../../elements/historyListWrapper/HistoryListWrapperElement'
+import React, { Fragment } from 'react'
+import ListWrapperElement from '../../elements/listWrapper/ListWrapperElement'
 import HistoryListItemElement from '../../elements/historyListItem/HistoryListItemElement'
+import SeparatorTransactionElement
+    from '../../elements/SeparatorTransaction/SeparatorTransactionElement'
 
-const HistoryListComponent = ({ date, data }) => (
-    <HistoryListWrapperElement date={date}>
+const HistoryListComponent = ({ date, data, onPress }) => (
+    <ListWrapperElement text={date}>
         {data.map((item, index) => (
-            <HistoryListItemElement {...item} key={index} />
+            <Fragment key={index}>
+                <HistoryListItemElement {...item} onPress={onPress}/>
+                {index + 1 !== data.length && <SeparatorTransactionElement />}
+            </Fragment>
         ))}
-    </HistoryListWrapperElement>
+    </ListWrapperElement>
 )
 
 export default HistoryListComponent
