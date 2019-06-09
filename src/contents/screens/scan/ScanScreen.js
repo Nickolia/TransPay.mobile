@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { StyleSheet, Text, View } from 'react-native'
+import { BarCodeScanner } from 'expo-barcode-scanner'
 
 import styles from './scan.styles'
 
-const BarCodeScannerComponent = ({handleBarCodeScanned, isConfirm}) => (
+const BarCodeScannerComponent = ({ handleBarCodeScanned, isConfirm }) => (
     <Fragment>
         <BarCodeScanner
             onBarCodeScanned={isConfirm ? null : handleBarCodeScanned}

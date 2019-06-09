@@ -1,4 +1,4 @@
-import * as Permissions from 'expo-permissions';
+import * as Permissions from 'expo-permissions'
 
 export const getCameraPermission = async () => {
     try {

@@ -27,7 +27,8 @@ export const getLoadableAction = getLoader => ({ name, async }) => (...args) => 
     dispatch,
     getState,
 ) =>
-    getLoader().then(({ [name]: action }) => {
-        const result = action(...args)
-        async ? result(dispatch, getState) : dispatch(result)
-    })
+    getLoader()
+        .then(({ [name]: action }) => {
+            const result = action(...args)
+            async ? result(dispatch, getState) : dispatch(result)
+        })

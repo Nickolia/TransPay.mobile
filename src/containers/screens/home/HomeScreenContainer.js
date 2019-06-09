@@ -1,11 +1,11 @@
 import { compose, withHandlers, withProps } from 'recompose'
 import { connect } from 'react-redux'
-import HomeScreen from '../../../contents/screens/homePage/HomeScreen'
-import { getCameraPermissions } from '../../../selectors/permissionsSelectors'
+import HomeScreen from '../../../contents/screens/home/HomeScreen'
+import { getCameraPermissionsSelector } from '../../../selectors/permissionsSelectors'
 
 export default compose(
     connect(state => ({
-        cameraPermission: getCameraPermissions(state),
+        cameraPermission: getCameraPermissionsSelector(state),
     })),
     withHandlers({
         openScanScreen: ({ navigation }) => () => navigation.navigate('Scan'),
@@ -13,5 +13,6 @@ export default compose(
     }),
     withProps({
         qrValue: '1231231231212',
+        title: 'Ваш QR-код',
     }),
 )(HomeScreen)

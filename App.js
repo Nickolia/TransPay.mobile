@@ -17,6 +17,7 @@ import AppNavigator from './src/navigation/AppNavigator'
 import { getCameraPermission } from './src/services/PemissionsServices'
 import { setPermission } from './src/actions/permissionAction'
 import Constants from 'expo-constants';
+import { windowWidth } from './src/constants/Layout'
 
 const client = axios.create({
     baseURL: 'https://api.github.com',
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
 
 export default function App({ skipLoadingScreen }) {
     const [isLoadingComplete, setLoadingComplete] = useState(false)
-    console.log(Constants.installationId)
+    console.log(windowWidth)
 
     return (
         <Provider store={store}>

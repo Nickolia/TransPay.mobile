@@ -1,11 +1,11 @@
-import { compose, withProps, withHandlers, withState } from 'recompose'
+import { compose, withHandlers, withProps, withState } from 'recompose'
 import { connect } from 'react-redux'
-import ScanScreen from '../../../contents/screens/scanPage/ScanScreen'
-import { getCameraPermissions } from '../../../selectors/permissionsSelectors'
+import ScanScreen from '../../../contents/screens/scan/ScanScreen'
+import { getCameraPermissionsSelector } from '../../../selectors/permissionsSelectors'
 
 export default compose(
     connect(state => ({
-        cameraPermission: getCameraPermissions(state),
+        cameraPermission: getCameraPermissionsSelector(state),
     })),
     withState('isConfirm', 'onChangeStatus', false),
     withHandlers({
